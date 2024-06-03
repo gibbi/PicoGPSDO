@@ -1,0 +1,18 @@
+.program twosixmhz
+
+set pindirs, 1
+
+loop:
+  set pins, 1 [5]
+  set pins, 0 [5]
+  jmp loop
+
+% c-sdk {
+static inline void twosixmhz_program_init(PIO pio, uint sm, uint offset, uint pin) {
+  // 1. Define a config object
+  pio_sm_config config = twosixmhz_program_get_default_config(offset);  // 2. Set and initialize the output pins
+  sm_config_set_set_pins(&config, pin, 1);  // 3. Apply the configuration & activate the State Machine
+  pio_sm_init(pio, sm, offset, &config);
+  pio_sm_set_enabled(pio, sm, true);
+}
+%}
