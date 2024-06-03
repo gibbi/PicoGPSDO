@@ -1,0 +1,6 @@
+/build/
+/build-host/
+.venv/
+venv/
+__pycache__/
+pico_gpsdo.log
