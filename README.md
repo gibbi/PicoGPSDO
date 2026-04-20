@@ -2,19 +2,13 @@
 
 RP2040 firmware that steers an OCXO via PWM (“DAC”), reads u-blox GNSS time over UART (UBX), and closes a two-stage servo: coarse steering from NAV-CLOCK and fine steering from TIM-TP `qErr`. A small Flask dashboard on the host tails USB CDC for live plots and tuning.
 
-Related talk (context and motivation): [YouTube — h3X4QuF_BUM](https://www.youtube.com/watch?v=h3X4QuF_BUM)
+**Hardware upstream:** this tree is based on [gibbi/PicoGPSDO](https://github.com/gibbi/PicoGPSDO) (schematics, KiCad, and notes under `hardware/`). Presentation context: European GNU Radio Days 2024 — [talk on YouTube](https://www.youtube.com/watch?v=h3X4QuF_BUM).
 
 ---
 
 ## Web UI screenshot
 
-Place your capture next to this repo as `../webui.png` (one level above the clone root) so the path below resolves when you open this README from the project folder.
-
-![GPSDO web dashboard](../webui.png)
-
-*If you publish on GitHub, copy the image into this repo (e.g. `docs/webui.png`) and change the link to `docs/webui.png` — GitHub cannot load images from parent directories outside the repository.*
-
----
+![GPSDO web dashboard](webui.png)
 
 ## Repository layout and components
 
@@ -29,6 +23,7 @@ Place your capture next to this repo as `../webui.png` (one level above the clon
 | **`pico_gpsdo_web.py`** | Flask host app: reads Pico USB serial, parses `{…}` telemetry, serves charts, tune forms, log tail, optional series clear. |
 | **`pico.py`** | Developer entrypoint: `clean` / `build` / `flash` / `webserver` / `lint` (see script header for caveats on `build/` paths). |
 | **`CMakeLists.txt`**, **`boards/`** | Pico SDK project, board hooks. |
+| **`hardware/`** | From [PicoGPSDO](https://github.com/gibbi/PicoGPSDO): PCB and hardware documentation (see `hardware/Readme.md`). |
 | **`tests/`** | Small host-side tests (e.g. UBX RX framing). |
 
 ---
@@ -52,11 +47,3 @@ Place your capture next to this repo as `../webui.png` (one level above the clon
 pip install -r requirements.txt
 ./pico.py webserver      # or: python3 pico_gpsdo_web.py … per pico.py usage
 ```
-
-Tune the running firmware over USB with one line per command (see `gpsdo_tune_try_cli_line` / `help` in firmware).
-
----
-
-## License / hardware
-
-See your team’s policy for hardware (OCXO, u-blox module, Orangebox VID/PID in `CMakeLists.txt`) and licensing. This README is documentation only.
